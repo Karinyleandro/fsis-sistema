@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decision Center | Mercado Horizonte</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:#0b1423;
+  --panel:#111f33;
+  --panel2:#172941;
+  --border:#263d58;
+  --blue:#2585ed;
+  --cyan:#39c7e8;
+  --white:#f1f6fc;
+  --muted:#8ba1bc;
+  --green:#36d6a0;
+  --red:#ff647c;
+  --yellow:#f5bd59;
+}
+
+* {box-sizing:border-box;margin:0;padding:0}
+
+body {
+  font-family:Inter,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  min-height:100vh;
+}
+
+button {font-family:inherit}
+
+.app {
+  display:flex;
+  min-height:100vh;
+}
+
+.sidebar {
+  width:235px;
+  background:#0d192a;
+  border-right:1px solid var(--border);
+  padding:28px 18px;
+  flex-shrink:0;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:45px;
+}
+
+.logo {
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  display:grid;
+  place-items:center;
+  font-weight:800;
+  font-size:18px;
+  color:white;
+}
+
+.brand strong {font-size:14px;letter-spacing:1px}
+.brand small {display:block;color:var(--muted);font-size:10px;margin-top:4px}
+
+.nav-label {
+  color:#637d9c;
+  font-size:10px;
+  letter-spacing:1.5px;
+  font-weight:700;
+  margin:25px 10px 12px;
+}
+
+.nav-item {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:13px;
+  color:var(--muted);
+  font-size:12px;
+  border-radius:8px;
+  margin-bottom:5px;
+}
+
+.nav-item.active {
+  background:#193454;
+  color:#68b9ff;
+  border-left:3px solid var(--blue);
+}
+
+.nav-icon {font-size:16px}
+
+.sidebar-bottom {
+  position:absolute;
+  bottom:25px;
+  color:#637d9c;
+  font-size:10px;
+}
+
+.main {
+  flex:1;
+  padding:30px 4%;
+  max-width:1400px;
+  margin:auto;
+  width:100%;
+}
+
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  padding-bottom:22px;
+  margin-bottom:30px;
+  gap:15px;
+}
+
+.breadcrumb {
+  font-size:11px;
+  color:var(--muted);
+}
+
+.status {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:10px;
+  color:var(--green);
+  background:#14372f;
+  border:1px solid #245c4d;
+  padding:8px 12px;
+  border-radius:30px;
+}
+
+.dot {
+  width:7px;
+  height:7px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 10px var(--green);
+}
+
+.welcome {
+  margin-bottom:28px;
+}
+
+.eyebrow {
+  color:var(--cyan);
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+h1 {
+  font-size:clamp(27px,4vw,40px);
+  letter-spacing:-1.5px;
+  margin-bottom:10px;
+}
+
+.subtitle {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  max-width:650px;
+}
+
+.metrics {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin:25px 0;
+}
+
+.metric {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+
+.metric:after {
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:3px;
+  height:100%;
+  background:var(--blue);
+}
+
+.metric-label {
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.5px;
+}
+
+.metric-value {
+  font-size:25px;
+  font-weight:700;
+  margin-top:12px;
+}
+
+.metric-description {
+  font-size:10px;
+  color:#718ba8;
+  margin-top:6px;
+}
+
+.content-grid {
+  display:grid;
+  grid-template-columns:1.35fr .85fr;
+  gap:18px;
+  align-items:start;
+}
+
+.panel {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:24px;
+  margin-bottom:18px;
+}
+
+.panel-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.panel-heading h2 {
+  font-size:15px;
+}
+
+.number {
+  color:var(--cyan);
+  font-size:10px;
+  font-weight:700;
+}
+
+.alert {
+  background:#182c45;
+  border:1px solid #294b6d;
+  border-left:3px solid var(--cyan);
+  padding:18px;
+  border-radius:8px;
+  font-size:12px;
+  color:#bdcfe1;
+  line-height:1.8;
+  margin-bottom:20px;
+}
+
+.alert strong {color:white}
+
+.data-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  padding:13px 0;
+  font-size:12px;
+}
+
+.data-row:last-child {border:0}
+.data-row span {color:var(--muted)}
+.data-row strong {font-size:13px}
+
+.question {
+  font-size:17px;
+  line-height:1.5;
+  margin-bottom:8px;
+}
+
+.helper {
+  font-size:11px;
+  color:var(--muted);
+  margin-bottom:20px;
+  line-height:1.6;
+}
+
+.choices {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.choice {
+  border:1px solid var(--border);
+  background:#172a42;
+  padding:18px 12px;
+  border-radius:9px;
+  text-align:left;
+  color:white;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.choice:hover {
+  border-color:var(--blue);
+  transform:translateY(-2px);
+}
+
+.choice.selected {
+  border-color:var(--cyan);
+  background:#193c5c;
+  box-shadow:0 0 0 1px var(--cyan);
+}
+
+.choice strong {
+  display:block;
+  font-size:20px;
+  margin-bottom:5px;
+}
+
+.choice small {
+  color:var(--muted);
+  font-size:10px;
+}
+
+.primary {
+  width:100%;
+  background:linear-gradient(100deg,#176fd0,#259de4);
+  color:white;
+  border:0;
+  padding:15px;
+  border-radius:8px;
+  margin-top:20px;
+  font-weight:700;
+  font-size:11px;
+  letter-spacing:.5px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.primary:hover {
+  filter:brightness(1.15);
+  transform:translateY(-1px);
+}
+
+.secondary {
+  background:#203750;
+  border:1px solid var(--border);
+  color:#b9d6f1;
+}
+
+.right-panel {
+  background:linear-gradient(160deg,#142b46,#111e30);
+}
+
+.progress {
+  height:5px;
+  background:#293b50;
+  border-radius:10px;
+  margin:15px 0;
+  overflow:hidden;
+}
+
+.progress-bar {
+  width:33%;
+  height:100%;
+  background:var(--cyan);
+  transition:width .5s;
+}
+
+.progress-label {
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.objective {
+  display:flex;
+  gap:12px;
+  padding:15px 0;
+  border-bottom:1px solid var(--border);
+  font-size:11px;
+  color:#c2d0df;
+  line-height:1.6;
+}
+
+.objective:last-child {border:0}
+
+.objective-icon {
+  color:var(--cyan);
+  font-weight:bold;
+}
+
+.result {
+  display:none;
+  animation:appear .5s ease;
+}
+
+@keyframes appear {
+  from {opacity:0;transform:translateY(12px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+.result-banner {
+  padding:22px;
+  border:1px solid var(--border);
+  background:#162b43;
+  border-radius:10px;
+  margin-bottom:18px;
+}
+
+.result-banner h2 {
+  font-size:21px;
+  margin:10px 0;
+}
+
+.result-banner p {
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+}
+
+.score {
+  font-size:42px;
+  font-weight:800;
+  color:var(--green);
+  margin:12px 0;
+}
+
+.sad-box {
+  display:none;
+  background:#112d42;
+  border:1px solid #28749b;
+  border-radius:12px;
+  padding:24px;
+  margin-top:18px;
+  animation:appear .5s ease;
+}
+
+.sad-box h2 {font-size:17px;margin-bottom:15px}
+
+.calc {
+  background:#0c1c2d;
+  border-radius:8px;
+  padding:16px;
+  margin:15px 0;
+  line-height:2;
+  font-size:12px;
+  color:#b8cbe0;
+}
+
+.calc strong {color:var(--cyan)}
+
+.recommendation {
+  font-size:30px;
+  font-weight:800;
+  color:var(--green);
+  margin:12px 0;
+}
+
+.explain {
+  border-top:1px solid #2b4e68;
+  padding-top:16px;
+  margin-top:16px;
+  font-size:12px;
+  line-height:1.8;
+  color:#c3d7e8;
+}
+
+.hidden {display:none!important}
+
+.footer {
+  text-align:center;
+  padding:25px;
+  color:#526b88;
+  font-size:10px;
+}
+
+@media(max-width:900px) {
+  .sidebar {display:none}
+  .content-grid {grid-template-columns:1fr}
+  .metrics {grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:480px) {
+  .main {padding:20px 15px}
+  .metrics {gap:8px}
+  .metric {padding:14px}
+  .metric-value {font-size:20px}
+  .panel {padding:18px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="brand">
+    <div class="logo">MH</div>
+    <div>
+      <strong>MERCADO HORIZONTE</strong>
+      <small>BUSINESS INTELLIGENCE</small>
+    </div>
+  </div>
+
+  <div class="nav-label">MENU PRINCIPAL</div>
+  <div class="nav-item active"><span>▦</span> Dashboard</div>
+  <div class="nav-item"><span>▤</span> Estoque</div>
+  <div class="nav-item"><span>⌁</span> Análise de dados</div>
+  <div class="nav-item"><span>◈</span> Relatórios</div>
+
+  <div class="nav-label">SISTEMA</div>
+  <div class="nav-item"><span>⚙</span> Configurações</div>
+
+  <div class="sidebar-bottom">
+    DECISION CENTER v1.0<br><br>
+    SISTEMA DE APOIO À DECISÃO
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="topbar">
+    <div class="breadcrumb">
+      OPERAÇÕES / GESTÃO DE ESTOQUE / DECISÃO
+    </div>
+    <div class="status">
+      <span class="dot"></span> SISTEMA OPERACIONAL
+    </div>
+  </div>
+
+  <section class="welcome">
+    <div class="eyebrow">CENTRAL DE INTELIGÊNCIA EMPRESARIAL</div>
+    <h1>Decision Center<span style="color:#39c7e8">.</span></h1>
+    <p class="subtitle">
+      Bem-vindo à central de decisões do Mercado Horizonte.
+      Analise os indicadores, avalie os cenários e escolha a
+      melhor estratégia para a empresa.
+    </p>
+  </section>
+
+  <section class="metrics">
+    <div class="metric">
+      <div class="metric-label">ORÇAMENTO DISPONÍVEL</div>
+      <div class="metric-value">R$ 5.000</div>
+      <div class="metric-description">Capital para compras</div>
+    </div>
+
+    <div class="metric">
+      <div class="metric-label">ESTOQUE ATUAL</div>
+      <div class="metric-value">100 <small style="font-size:12px">un.</small></div>
+      <div class="metric-description">Pacotes de arroz</div>
+    </div>
+
+    <div class="metric">
+      <div class="metric-label">DEMANDA DIÁRIA</div>
+      <div class="metric-value">20 <small style="font-size:12px">un.</small></div>
+      <div class="metric-description">Média de vendas</div>
+    </div>
+
+    <div class="metric">
+      <div class="metric-label">PRAZO DE ENTREGA</div>
+      <div class="metric-value">05 dias</div>
+      <div class="metric-description">Tempo do fornecedor</div>
+    </div>
+  </section>
+
+  <div class="content-grid">
+
+    <div>
+
+      <section class="panel" id="mission">
+        <div class="panel-heading">
+          <h2>01. DESAFIO OPERACIONAL</h2>
+          <span class="number">MISSÃO 01 / 03</span>
+        </div>
+
+        <div class="alert">
+          <strong>ALERTA DE REPOSIÇÃO</strong><br>
+          O estoque de arroz está próximo do limite.
+          O fornecedor precisa de 5 dias para realizar a entrega.
+          Você precisa decidir quanto comprar para evitar uma
+          possível falta de produtos.
+        </div>
+
+        <h3 class="question">Qual será sua estratégia de compra?</h3>
+        <p class="helper">
+          Selecione uma das alternativas. Sua decisão terá
+          consequências financeiras e operacionais.
+        </p>
+
+        <div class="choices">
+          <button class="choice" onclick="selectChoice(0,this)">
+            <strong>00</strong>
+            <small>Não comprar</small>
+          </button>
+
+          <button class="choice" onclick="selectChoice(30,this)">
+            <strong>30</strong>
+            <small>Compra moderada</small>
+          </button>
+
+          <button class="choice" onclick="selectChoice(60,this)">
+            <strong>60</strong>
+            <small>Compra reforçada</small>
+          </button>
+
+          <button class="choice" onclick="selectChoice(100,this)">
+            <strong>100</strong>
+            <small>Compra máxima</small>
+          </button>
+        </div>
+
+        <button class="primary" onclick="confirmDecision()">
+          CONFIRMAR DECISÃO →
+        </button>
+      </section>
+
+      <section class="result" id="result">
+
+        <div class="result-banner">
+          <div class="eyebrow">RESULTADO DA SUA ESTRATÉGIA</div>
+          <h2 id="resultTitle"></h2>
+          <p id="resultDescription"></p>
+          <div class="score" id="score">100/100</div>
+          <p id="scoreDescription"></p>
+        </div>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>IMPACTO DA DECISÃO</h2>
+            <span class="number">ANÁLISE</span>
+          </div>
+          <div class="data-row">
+            <span>Quantidade comprada</span>
+            <strong id="buyResult"></strong>
+          </div>
+          <div class="data-row">
+            <span>Investimento realizado</span>
+            <strong id="costResult"></strong>
+          </div>
+          <div class="data-row">
+            <span>Estoque após entrega e vendas</span>
+            <strong id="remainingResult"></strong>
+          </div>
+
+          <button class="primary" onclick="revealSAD()">
+            ACESSAR ANÁLISE DO SAD →
+          </button>
+        </section>
+
+      </section>
+
+      <section class="sad-box" id="sad">
+        <div class="eyebrow">MÓDULO DE INTELIGÊNCIA</div>
+        <h2>02. ANÁLISE DO SISTEMA</h2>
+        <p class="helper">
+          O sistema cruzou os dados operacionais e calculou
+          a necessidade de reposição.
+        </p>
+
+        <div class="calc">
+          DEMANDA NO PRAZO: 20 × 5 = 100 pacotes<br>
+          ESTOQUE DE SEGURANÇA: 30 pacotes<br>
+          NECESSIDADE TOTAL: 130 pacotes<br>
+          ESTOQUE DISPONÍVEL: 100 pacotes<br>
+          <strong>REPOSIÇÃO NECESSÁRIA: 30 pacotes</strong>
+        </div>
+
+        <div class="eyebrow">RECOMENDAÇÃO DO SAD</div>
+        <div class="recommendation">30 PACOTES</div>
+
+        <p class="helper">
+          Com essa quantidade, a empresa consegue atender
+          à demanda prevista durante o prazo de entrega
+          e manter sua reserva de segurança.
+        </p>
+
+        <div class="explain">
+          <strong>O que aconteceu aqui?</strong><br><br>
+          O Sistema de Apoio à Decisão reuniu informações
+          sobre estoque, vendas, prazo de entrega e reserva
+          de segurança. Depois, realizou cálculos para
+          identificar uma alternativa adequada.<br><br>
+
+          O sistema não substituiu o gerente.
+          Ele forneceu informações para que o gerente
+          pudesse tomar uma decisão mais fundamentada.
+        </div>
+
+        <button class="primary secondary" onclick="restart()">
+          REINICIAR SIMULAÇÃO
+        </button>
+      </section>
+
+    </div>
+
+    <div>
+
+      <section class="panel right-panel">
+        <div class="panel-heading">
+          <h2>PROGRESSO DA MISSÃO</h2>
+        </div>
+
+        <div class="progress-label">
+          <span>ANDAMENTO</span>
+          <strong id="progressText">33%</strong>
+        </div>
+
+        <div class="progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="objective">
+          <span class="objective-icon">01</span>
+          <div>
+            <strong>Identificar o problema</strong><br>
+            <span class="muted">Avaliar a situação do estoque.</span>
+          </div>
+        </div>
+
+        <div class="objective">
+          <span class="objective-icon">02</span>
+          <div>
+            <strong>Tomar uma decisão</strong><br>
+            <span class="muted">Escolher uma estratégia de compra.</span>
+          </div>
+        </div>
+
+        <div class="objective">
+          <span class="objective-icon">03</span>
+          <div>
+            <strong>Analisar com o SAD</strong><br>
+            <span class="muted">Consultar os dados e recomendações.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>INDICADORES DA OPERAÇÃO</h2>
+        </div>
+
+        <div class="data-row">
+          <span>Preço por pacote</span>
+          <strong>R$ 20,00</strong>
+        </div>
+        <div class="data-row">
+          <span>Estoque de segurança</span>
+          <strong>30 un.</strong>
+        </div>
+        <div class="data-row">
+          <span>Prazo de entrega</span>
+          <strong>5 dias</strong>
+        </div>
+        <div class="data-row">
+          <span>Setor responsável</span>
+          <strong>Compras</strong>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    MERCADO HORIZONTE • BUSINESS INTELLIGENCE • DECISION CENTER
+  </div>
+
+</main>
+</div>
+
+<script>
+let selected = null;
+
+function selectChoice(value,button) {
+  selected = value;
+
+  document.querySelectorAll(".choice").forEach(item => {
+    item.classList.remove("selected");
+  });
+
+  button.classList.add("selected");
+}
+
+function confirmDecision() {
+  if(selected === null) {
+    alert("Selecione uma estratégia antes de continuar.");
+    return;
+  }
+
+  const estoque = 100;
+  const vendas = 20;
+  const prazo = 5;
+  const seguranca = 30;
+  const preco = 20;
+
+  const necessidade = vendas * prazo + seguranca;
+  const estoqueFinal = estoque + selected - vendas * prazo;
+  const custo = selected * preco;
+
+  const diferenca = Math.abs(selected - 30);
+  const pontos = Math.max(0,100 - diferenca * 1.5);
+
+  let title,description;
+
+  if(selected === 30) {
+    title = "Estratégia eficiente";
+    description = "Sua decisão atendeu exatamente à necessidade calculada. A empresa consegue preservar o estoque de segurança.";
+  } else if(selected < 30) {
+    title = "Risco operacional identificado";
+    description = "Sua compra foi insuficiente. A empresa terminará o período com estoque abaixo da reserva de segurança.";
+  } else {
+    title = "Excesso de estoque identificado";
+    description = "Sua decisão garante a reserva, mas imobiliza mais dinheiro do que o necessário nesta operação.";
+  }
+
+  document.getElementById("resultTitle").innerText = title;
+  document.getElementById("resultDescription").innerText = description;
+  document.getElementById("score").innerText = Math.round(pontos) + "/100";
+  document.getElementById("scoreDescription").innerText =
+    "Pontuação de eficiência da sua estratégia.";
+
+  document.getElementById("buyResult").innerText = selected + " pacotes";
+  document.getElementById("costResult").innerText =
+    custo.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  document.getElementById("remainingResult").innerText =
+    estoqueFinal + " pacotes";
+
+  document.getElementById("mission").classList.add("hidden");
+  document.getElementById("result").style.display = "block";
+
+  document.getElementById("progressBar").style.width = "66%";
+  document.getElementById("progressText").innerText = "66%";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function revealSAD() {
+  document.getElementById("sad").style.display = "block";
+  document.getElementById("progressBar").style.width = "100%";
+  document.getElementById("progressText").innerText = "100%";
+
+  document.getElementById("sad").scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+}
+
+function restart() {
+  selected = null;
+
+  document.getElementById("mission").classList.remove("hidden");
+  document.getElementById("result").style.display = "none";
+  document.getElementById("sad").style.display = "none";
+
+  document.querySelectorAll(".choice").forEach(item => {
+    item.classList.remove("selected");
+  });
+
+  document.getElementById("progressBar").style.width = "33%";
+  document.getElementById("progressText").innerText = "33%";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
